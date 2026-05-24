@@ -1,7 +1,18 @@
+# Identity (per-repo, never committed)
 .sid-identity
 .envrc
+
+# Child repos — each tracked in its own repo, gitignored here
 3brown1blue/
-.venv/
+nn-zero-to-hero/
+
+# Python / uv
 __pycache__/
 *.py[cod]
+.venv/
 .pytest_cache/
+
+# Resources: linked-only — ignore binaries, track only markdown notes
+Resources/**
+!Resources/**/
+!Resources/**/*.md

@@ -1,3 +1,7 @@
 .sid-identity
 .envrc
 3brown1blue/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/

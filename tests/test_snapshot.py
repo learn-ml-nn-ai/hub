@@ -73,3 +73,10 @@ def test_discover_repos_finds_only_git_dirs(tmp_path):
     (tmp_path / "b").mkdir()
     found = discover_repos(tmp_path)
     assert [p.name for p in found] == ["a"]
+
+
+def test_read_repo_handles_no_commits(tmp_path):
+    repo = tmp_path / "empty"
+    _init_repo(repo)
+    status = read_repo(repo)
+    assert status.last_commit == "(no commits)"

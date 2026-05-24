@@ -60,6 +60,7 @@ class RepoStatus:
 
 
 def render_status(repos: list[RepoStatus], generated_at: str) -> str:
+    """Render the given repo statuses as a single markdown table."""
     lines = [
         "# STATUS",
         "",
@@ -89,7 +90,7 @@ def read_repo(path: Path) -> RepoStatus:
     status = RepoStatus(name=path.name)
     roadmap = path / "ROADMAP.md"
     if roadmap.exists():
-        status.phases = parse_roadmap(roadmap.read_text())
+        status.phases = parse_roadmap(roadmap.read_text(encoding="utf-8"))
     last = _git(path, "log", "-1", "--format=%h %ad %s", "--date=short")
     if last:
         status.last_commit = last
@@ -100,6 +101,7 @@ def read_repo(path: Path) -> RepoStatus:
 
 
 def discover_repos(hub_root: Path) -> list[Path]:
+    """Return immediate child directories that are git repos, sorted by name."""
     return sorted(
         p for p in hub_root.iterdir() if p.is_dir() and (p / ".git").exists()
     )

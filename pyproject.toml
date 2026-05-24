@@ -1,0 +1,13 @@
+[project]
+name = "ml-hub"
+version = "0.1.0"
+description = "Mission-control hub for the learn-ml-nn-ai fleet"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv]
+dev-dependencies = ["pytest>=8.3"]
+
+[tool.pytest.ini_options]
+pythonpath = ["operational"]
+testpaths = ["tests"]

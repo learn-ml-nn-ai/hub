@@ -1,4 +1,6 @@
-from snapshot import PhaseProgress, RepoStatus, parse_roadmap, render_status
+import subprocess
+
+from snapshot import PhaseProgress, RepoStatus, discover_repos, parse_roadmap, read_repo, render_status
 
 
 def test_parse_roadmap_empty():
@@ -43,3 +45,31 @@ def test_render_status_table():
     out = render_status([r], "2026-05-24 10:00 UTC")
     assert "Do not edit by hand" in out
     assert "| demo | 50% (1/2) | abc123 2026-05-20 hello | main |" in out
+
+
+def _init_repo(path):
+    path.mkdir()
+    subprocess.run(["git", "init", "-q", str(path)], check=True)
+    subprocess.run(["git", "-C", str(path), "config", "user.email", "t@t.io"], check=True)
+    subprocess.run(["git", "-C", str(path), "config", "user.name", "tester"], check=True)
+
+
+def test_read_repo_reads_roadmap_and_commit(tmp_path):
+    repo = tmp_path / "child"
+    _init_repo(repo)
+    (repo / "ROADMAP.md").write_text("## Phase 01\n\n- [x] a\n- [ ] b\n")
+    subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(repo), "commit", "-qm", "initial"], check=True)
+
+    status = read_repo(repo)
+    assert status.name == "child"
+    assert status.done == 1
+    assert status.total == 2
+    assert "initial" in status.last_commit
+
+
+def test_discover_repos_finds_only_git_dirs(tmp_path):
+    _init_repo(tmp_path / "a")
+    (tmp_path / "b").mkdir()
+    found = discover_repos(tmp_path)
+    assert [p.name for p in found] == ["a"]

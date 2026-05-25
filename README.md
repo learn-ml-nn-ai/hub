@@ -12,7 +12,7 @@ see [`meta/registry.md`](meta/registry.md).
 - **The compass** → [`decisions/`](decisions/) — why the journey is shaped this way.
 - **The next step** → [`operational/`](operational/) — runbooks + the snapshot tool.
 - **Where things stand** → [`STATUS.md`](STATUS.md) — generated; run `just snapshot` to refresh.
-- **Cross-repo work** → GitHub Project (link added in Task 12).
+- **Cross-repo work** → [GitHub Project](https://github.com/orgs/learn-ml-nn-ai/projects/1) — cross-repo epics & work items.
 
 ## Refresh status
 

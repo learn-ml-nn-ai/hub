@@ -16,3 +16,5 @@ __pycache__/
 Resources/**
 !Resources/**/
 !Resources/**/*.md
+# ...but generated PDF-extraction dumps are artifacts, not curated notes
+Resources/**/*.extracted/
